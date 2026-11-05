@@ -7,65 +7,193 @@
     <style>
         body {
             margin: 0;
+            padding: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            background-color: #ffffff;
+            background-color: #ffffff; /* Notion's default white */
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
         }
+
         .banner {
-            text-align: center;
-            padding: 24px;
+            display: flex;
+            width: 100%;
+            background-color: #F7F5EE; /* Warm pastel beige from the screenshot */
+            border: 1px solid #E6E0D4;
             border-radius: 12px;
-            background: #F7F7F5;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            width: 90%;
-            max-width: 400px;
+            padding: 32px;
+            box-sizing: border-box;
+            color: #332F2A;
         }
-        .greeting-hanzi {
-            font-size: 2.2rem;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 4px;
+
+        .section-left {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
         }
-        .greeting-pinyin {
-            font-size: 1rem;
-            color: #888;
+
+        .section-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            text-align: right;
+        }
+
+        .divider {
+            width: 1px;
+            background-color: #E2DBD0;
+            margin: 0 40px;
+        }
+
+        .eyebrow {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: #8C7B65;
             margin-bottom: 12px;
-            font-style: italic;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-        .subtitle {
-            font-size: 1.05rem;
-            color: #555;
+
+        .dot {
+            height: 6px;
+            width: 6px;
+            background-color: #8C7B65;
+            border-radius: 50%;
+        }
+
+        .greeting {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #332F2A;
+            margin-bottom: 8px;
+        }
+
+        .greeting-highlight {
+            color: #8C7B65; /* Matches the brown emphasis on "Bonne nuit." */
+        }
+
+        .datetime {
+            font-size: 0.9rem;
+            color: #8C8477;
+            margin-bottom: 24px;
+        }
+
+        .main-tip {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: #332F2A;
+            margin-bottom: 8px;
+            max-width: 90%;
+        }
+
+        .sub-tip {
+            font-size: 0.9rem;
+            color: #8C8477;
+            margin-bottom: 24px;
+        }
+
+        .badge {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #72624F;
+            border: 1px solid #D1C9BC;
+            border-radius: 20px;
+            padding: 6px 16px;
+            background-color: transparent;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Responsive stacking for mobile/narrow Notion columns */
+        @media (max-width: 768px) {
+            .banner {
+                flex-direction: column;
+                padding: 24px;
+            }
+            .divider {
+                width: 100%;
+                height: 1px;
+                margin: 24px 0;
+            }
+            .section-right {
+                align-items: flex-start;
+                text-align: left;
+            }
+            .eyebrow-right {
+                flex-direction: row-reverse; 
+                justify-content: flex-end;
+            }
         }
     </style>
 </head>
 <body>
+
     <div class="banner">
-        <div class="greeting-hanzi" id="greetHanzi">你好</div>
-        <div class="greeting-pinyin" id="greetPinyin">nǐ hǎo</div>
-        <div class="subtitle">今天准备好学习中文了吗？</div>
+        <!-- Left Section -->
+        <div class="section-left">
+            <div class="eyebrow"><div class="dot"></div> 用中文问好</div>
+            <div class="greeting" id="greetingText">加载中...</div>
+            <div class="datetime" id="datetimeDisplay">加载时间...</div>
+            <div class="badge">语言学习系统 &rarr;</div>
+        </div>
+
+        <!-- Vertical Divider -->
+        <div class="divider"></div>
+
+        <!-- Right Section -->
+        <div class="section-right">
+            <div class="eyebrow eyebrow-right">今日练习提示 <div class="dot"></div></div>
+            <div class="main-tip">现在就计划明天的十分钟，让未来的你无需纠结。</div>
+            <div class="sub-tip">保持连胜固然好，但享受整个学习旅程更重要。</div>
+            <div class="badge">一站式追踪所有语言 &rarr;</div>
+        </div>
     </div>
 
     <script>
-        const hour = new Date().getHours();
-        let hanzi = "你好";
-        let pinyin = "nǐ hǎo";
+        function updateTime() {
+            const now = new Date();
+            const hour = now.getHours();
+            let minutes = now.getMinutes();
+            let ampm = hour >= 12 ? "下午" : "上午";
+            
+            // Format 12-hour clock
+            let displayHour = hour % 12;
+            displayHour = displayHour ? displayHour : 12; 
+            minutes = minutes < 10 ? '0' + minutes : minutes;
 
-        if (hour < 12) {
-            hanzi = "早上好";
-            pinyin = "zǎoshang hǎo";
-        } else if (hour < 18) {
-            hanzi = "下午好";
-            pinyin = "xiàwǔ hǎo";
-        } else {
-            hanzi = "晚上好";
-            pinyin = "wǎnshang hǎo";
+            // Chinese Date formatting
+            const days = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+            const months = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
+            
+            const dayName = days[now.getDay()];
+            const monthName = months[now.getMonth()];
+            const dateNumber = now.getDate();
+
+            // Construct the final date/time string
+            const timeString = `${dayName}, ${monthName} ${dateNumber}日 · ${displayHour}:${minutes} ${ampm}`;
+            document.getElementById('datetimeDisplay').innerText = timeString;
+
+            // Update greeting based on time of day
+            let greetingHTML = "";
+            if (hour < 12) {
+                greetingHTML = `<span class="greeting-highlight">早上好。</span>开启新的一天？`;
+            } else if (hour < 18) {
+                greetingHTML = `<span class="greeting-highlight">下午好。</span>继续努力？`;
+            } else {
+                greetingHTML = `<span class="greeting-highlight">晚上好。</span>还没睡吗？`;
+            }
+            document.getElementById('greetingText').innerHTML = greetingHTML;
         }
 
-        document.getElementById("greetHanzi").innerText = hanzi;
-        document.getElementById("greetPinyin").innerText = pinyin;
+        // Run immediately, then update every second
+        updateTime();
+        setInterval(updateTime, 1000);
     </script>
+
 </body>
 </html>
