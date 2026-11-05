@@ -11,19 +11,19 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #ffffff; /* Notion's default white */
+            background-color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
         }
 
         .banner {
             display: flex;
             width: 100%;
-            background-color: #F7F5EE; /* Warm pastel beige from the screenshot */
-            border: 1px solid #E6E0D4;
+            background-color: #D1D8F0; /* Requested periwinkle background */
+            border: 1px solid #BAC4E8;
             border-radius: 12px;
             padding: 32px;
             box-sizing: border-box;
-            color: #332F2A;
+            color: #1F253D; /* Deep slate navy for high legibility */
         }
 
         .section-left {
@@ -43,7 +43,7 @@
 
         .divider {
             width: 1px;
-            background-color: #E2DBD0;
+            background-color: #B4BFE3;
             margin: 0 40px;
         }
 
@@ -51,7 +51,7 @@
             font-size: 0.75rem;
             font-weight: 700;
             letter-spacing: 0.08em;
-            color: #8C7B65;
+            color: #4B567E; /* Slate-indigo accent */
             margin-bottom: 12px;
             display: flex;
             align-items: center;
@@ -61,55 +61,68 @@
         .dot {
             height: 6px;
             width: 6px;
-            background-color: #8C7B65;
+            background-color: #4B567E;
             border-radius: 50%;
         }
 
         .greeting {
             font-size: 1.75rem;
             font-weight: 600;
-            color: #332F2A;
+            color: #1F253D;
             margin-bottom: 8px;
         }
 
         .greeting-highlight {
-            color: #8C7B65; /* Matches the brown emphasis on "Bonne nuit." */
+            color: #4B567E;
         }
 
         .datetime {
             font-size: 0.9rem;
-            color: #8C8477;
+            color: #556087;
             margin-bottom: 24px;
         }
 
         .main-tip {
-            font-size: 1.25rem;
-            font-weight: 500;
-            color: #332F2A;
+            font-size: 1.2rem;
+            font-weight: 600;
+            line-height: 1.45;
+            color: #1F253D;
             margin-bottom: 8px;
-            max-width: 90%;
+            max-width: 95%;
         }
 
         .sub-tip {
-            font-size: 0.9rem;
-            color: #8C8477;
+            font-size: 0.88rem;
+            line-height: 1.4;
+            color: #556087;
             margin-bottom: 24px;
+            max-width: 90%;
         }
 
+        /* Clickable button/badges */
         .badge {
             font-size: 0.85rem;
             font-weight: 500;
-            color: #72624F;
-            border: 1px solid #D1C9BC;
+            color: #272F4F;
+            border: 1px solid #9CAADA;
             border-radius: 20px;
-            padding: 6px 16px;
-            background-color: transparent;
+            padding: 7px 18px;
+            background-color: rgba(255, 255, 255, 0.35);
             display: inline-flex;
             align-items: center;
             gap: 6px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        /* Responsive stacking for mobile/narrow Notion columns */
+        .badge:hover {
+            background-color: rgba(255, 255, 255, 0.65);
+            border-color: #798CC9;
+            transform: translateY(-1px);
+        }
+
+        /* Responsive stacking for narrow screens / mobile */
         @media (max-width: 768px) {
             .banner {
                 flex-direction: column;
@@ -139,7 +152,10 @@
             <div class="eyebrow"><div class="dot"></div> 用中文问好</div>
             <div class="greeting" id="greetingText">加载中...</div>
             <div class="datetime" id="datetimeDisplay">加载时间...</div>
-            <div class="badge">语言学习系统 &rarr;</div>
+            <!-- Replace YOUR_NOTION_PAGE_URL_HERE with your Notion note link -->
+            <a href="YOUR_NOTION_PAGE_URL_HERE" target="_blank" class="badge">
+                新建课堂笔记 &rarr;
+            </a>
         </div>
 
         <!-- Vertical Divider -->
@@ -147,10 +163,12 @@
 
         <!-- Right Section -->
         <div class="section-right">
-            <div class="eyebrow eyebrow-right">今日练习提示 <div class="dot"></div></div>
-            <div class="main-tip">现在就计划明天的十分钟，让未来的你无需纠结。</div>
-            <div class="sub-tip">保持连胜固然好，但享受整个学习旅程更重要。</div>
-            <div class="badge">一站式追踪所有语言 &rarr;</div>
+            <div class="eyebrow eyebrow-right">每日自勉 <div class="dot"></div></div>
+            <div class="main-tip">我们日复一日的重复，造就了现在的我们。卓越并非一时的行为，而是一种习惯。</div>
+            <div class="sub-tip">语言不是一蹴而就的奇迹，而是每天坚持的沉淀。</div>
+            <a href="https://papago.naver.com/" target="_blank" class="badge">
+                立即翻译 &rarr;
+            </a>
         </div>
     </div>
 
@@ -161,12 +179,10 @@
             let minutes = now.getMinutes();
             let ampm = hour >= 12 ? "下午" : "上午";
             
-            // Format 12-hour clock
             let displayHour = hour % 12;
             displayHour = displayHour ? displayHour : 12; 
             minutes = minutes < 10 ? '0' + minutes : minutes;
 
-            // Chinese Date formatting
             const days = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
             const months = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
             
@@ -174,11 +190,9 @@
             const monthName = months[now.getMonth()];
             const dateNumber = now.getDate();
 
-            // Construct the final date/time string
             const timeString = `${dayName}, ${monthName} ${dateNumber}日 · ${displayHour}:${minutes} ${ampm}`;
             document.getElementById('datetimeDisplay').innerText = timeString;
 
-            // Update greeting based on time of day
             let greetingHTML = "";
             if (hour < 12) {
                 greetingHTML = `<span class="greeting-highlight">早上好。</span>开启新的一天？`;
@@ -190,7 +204,6 @@
             document.getElementById('greetingText').innerHTML = greetingHTML;
         }
 
-        // Run immediately, then update every second
         updateTime();
         setInterval(updateTime, 1000);
     </script>
