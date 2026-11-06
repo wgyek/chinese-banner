@@ -18,12 +18,20 @@
         .banner {
             display: flex;
             width: 100%;
-            background-color: #D1D8F0; /* Requested periwinkle background */
+            /* The image background with a soft periwinkle tint (#D1D8F0) overlay for text readability */
+            background: 
+                linear-gradient(rgba(209, 216, 240, 0.65), rgba(209, 216, 240, 0.65)), 
+                url("banner-bg.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            
             border: 1px solid #BAC4E8;
             border-radius: 12px;
             padding: 32px;
             box-sizing: border-box;
-            color: #1F253D; /* Deep slate navy for high legibility */
+            color: #1F253D; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         .section-left {
@@ -43,7 +51,7 @@
 
         .divider {
             width: 1px;
-            background-color: #B4BFE3;
+            background-color: rgba(75, 86, 126, 0.25);
             margin: 0 40px;
         }
 
@@ -51,7 +59,7 @@
             font-size: 0.75rem;
             font-weight: 700;
             letter-spacing: 0.08em;
-            color: #4B567E; /* Slate-indigo accent */
+            color: #4B567E; 
             margin-bottom: 12px;
             display: flex;
             align-items: center;
@@ -78,8 +86,9 @@
 
         .datetime {
             font-size: 0.9rem;
-            color: #556087;
+            color: #434C6D;
             margin-bottom: 24px;
+            font-weight: 500;
         }
 
         .main-tip {
@@ -94,12 +103,12 @@
         .sub-tip {
             font-size: 0.88rem;
             line-height: 1.4;
-            color: #556087;
+            color: #434C6D;
             margin-bottom: 24px;
             max-width: 90%;
+            font-weight: 500;
         }
 
-        /* Clickable button/badges */
         .badge {
             font-size: 0.85rem;
             font-weight: 500;
@@ -107,7 +116,8 @@
             border: 1px solid #9CAADA;
             border-radius: 20px;
             padding: 7px 18px;
-            background-color: rgba(255, 255, 255, 0.35);
+            background-color: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(4px);
             display: inline-flex;
             align-items: center;
             gap: 6px;
@@ -117,12 +127,11 @@
         }
 
         .badge:hover {
-            background-color: rgba(255, 255, 255, 0.65);
+            background-color: rgba(255, 255, 255, 0.85);
             border-color: #798CC9;
             transform: translateY(-1px);
         }
 
-        /* Responsive stacking for narrow screens / mobile */
         @media (max-width: 768px) {
             .banner {
                 flex-direction: column;
@@ -152,9 +161,9 @@
             <div class="eyebrow"><div class="dot"></div> 用中文问好</div>
             <div class="greeting" id="greetingText">加载中...</div>
             <div class="datetime" id="datetimeDisplay">加载时间...</div>
-            <!-- Replace YOUR_NOTION_PAGE_URL_HERE with your Notion note link -->
-            <a href="https://app.notion.com/p/New-Class-Note-40b5496652a680b096f8f12e94f33b89?source=copy_link" target="_blank" class="badge">
-                新建课堂笔记 &rarr;
+            
+            <a href="YOUR_CLASS_NOTES_DATABASE_URL_HERE" target="_blank" class="badge">
+                查看课堂笔记 &rarr;
             </a>
         </div>
 
@@ -166,6 +175,7 @@
             <div class="eyebrow eyebrow-right">每日自勉 <div class="dot"></div></div>
             <div class="main-tip">我们日复一日的重复，造就了现在的我们。卓越并非一时的行为，而是一种习惯。</div>
             <div class="sub-tip">语言不是一蹴而就的奇迹，而是每天坚持的沉淀。</div>
+            
             <a href="https://papago.naver.com/" target="_blank" class="badge">
                 立即翻译 &rarr;
             </a>
